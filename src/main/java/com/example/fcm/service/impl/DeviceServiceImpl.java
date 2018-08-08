@@ -4,10 +4,12 @@ import com.example.fcm.model.Device;
 import com.example.fcm.repository.DeviceRepository;
 import com.example.fcm.service.DeviceService;
 import com.example.fcm.service.dto.DeviceDTO;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 public class DeviceServiceImpl implements DeviceService {
 
@@ -22,6 +24,7 @@ public class DeviceServiceImpl implements DeviceService {
     @Transactional
     public DeviceDTO save(DeviceDTO deviceDTO) {
         Device device = deviceRepository.save(toDeviceEntity(deviceDTO));
+        log.info("Device saved. Id: '{}'", device.getId());
         return toDeviceDto(device);
     }
 
@@ -47,13 +50,16 @@ public class DeviceServiceImpl implements DeviceService {
         Device device = findByExternalID(deviceDTO.getExternalId());
         device.setToken(deviceDTO.getToken());
         device.setEnable(deviceDTO.getEnable());
-        return toDeviceDto(deviceRepository.save(device));
+        Device updated = deviceRepository.save(device);
+        log.info("Updating device with id: '{}'", updated.getId());
+        return toDeviceDto(updated);
     }
 
     @Override
     @Transactional
     public void delete(DeviceDTO deviceDTO) {
         deviceRepository.deleteByExternalId(deviceDTO.getExternalId());
+        log.info("Device with external id: '{}' - deleted successfully", deviceDTO.getExternalId());
     }
 
     @Override
