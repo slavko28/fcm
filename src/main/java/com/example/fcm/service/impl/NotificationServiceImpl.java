@@ -18,13 +18,13 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public void subscribeToTopic(List<String> tokens, String topicName) throws FirebaseMessagingException {
         TopicManagementResponse response = getInstance().subscribeToTopic(tokens, topicName);
-        log.info("{} device successfully subscribed on topic '{}'", response.getSuccessCount(), topicName);
+        log.info("{} devices successfully subscribed on topic '{}'", response.getSuccessCount(), topicName);
     }
 
     @Override
     public void unsubscribeFromTopic(List<String> tokens, String topicName) throws FirebaseMessagingException {
         TopicManagementResponse response = getInstance().unsubscribeFromTopic(tokens, topicName);
-        log.info("{} device successfully unsubscribed from topic '{}'", response.getSuccessCount(), topicName);
+        log.info("{} devices successfully unsubscribed from topic '{}'", response.getSuccessCount(), topicName);
     }
 
     @Override
