@@ -1,7 +1,6 @@
 package com.example.fcm.model;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.experimental.Builder;
 
 import javax.persistence.Entity;

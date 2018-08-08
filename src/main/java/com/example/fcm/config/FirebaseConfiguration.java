@@ -30,8 +30,6 @@ public class FirebaseConfiguration {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
 
 }
