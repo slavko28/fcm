@@ -6,13 +6,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Builder;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
 @Data
 public class DeviceDTO {
 
     private Long externalId;
+    private String userLogin;
     private String token;
     private DevicePlatform platform;
     private Boolean enable;

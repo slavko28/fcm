@@ -4,6 +4,7 @@ import com.example.fcm.model.Device;
 import com.example.fcm.repository.DeviceRepository;
 import com.example.fcm.service.DeviceService;
 import com.example.fcm.service.dto.DeviceDTO;
+import com.example.fcm.service.dto.MessageRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,11 +22,17 @@ public class DeviceServiceImpl implements DeviceService {
     }
 
     @Override
+    public Device getById(Long id) {
+        return deviceRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException(String.format("Device not found by deviceId: '%s'", id)));
+    }
+
+    @Override
     @Transactional
-    public DeviceDTO save(DeviceDTO deviceDTO) {
+    public Device save(DeviceDTO deviceDTO) {
         Device device = deviceRepository.save(toDeviceEntity(deviceDTO));
         log.info("Device saved. Id: '{}'", device.getId());
-        return toDeviceDto(device);
+        return device;
     }
 
     private DeviceDTO toDeviceDto(Device device) {
@@ -40,7 +47,7 @@ public class DeviceServiceImpl implements DeviceService {
                 .externalId(deviceDTO.getExternalId())
                 .token(deviceDTO.getToken())
                 .platform(deviceDTO.getPlatform())
-                .enable(true)
+                .enable(false)
                 .build();
     }
 
@@ -51,7 +58,7 @@ public class DeviceServiceImpl implements DeviceService {
         device.setToken(deviceDTO.getToken());
         device.setEnable(deviceDTO.getEnable());
         Device updated = deviceRepository.save(device);
-        log.info("Updating device with id: '{}'", updated.getId());
+        log.info("Updating device with deviceId: '{}'", updated.getId());
         return toDeviceDto(updated);
     }
 
@@ -59,12 +66,20 @@ public class DeviceServiceImpl implements DeviceService {
     @Transactional
     public void delete(DeviceDTO deviceDTO) {
         deviceRepository.deleteByExternalId(deviceDTO.getExternalId());
-        log.info("Device with external id: '{}' - deleted successfully", deviceDTO.getExternalId());
+        log.info("Device with external deviceId: '{}' - deleted successfully", deviceDTO.getExternalId());
     }
 
     @Override
     public Device findByExternalID(Long externalId) {
         return deviceRepository.findByExternalId(externalId)
-                .orElseThrow(() -> new IllegalArgumentException(String.format("Device not found by id: '%s'", externalId)));
+                .orElseThrow(() -> new IllegalArgumentException(String.format("Device not found by deviceId: '%s'", externalId)));
+    }
+
+    @Override
+    public Device setExternalId(MessageRequest messageRequest) {
+        Device device = getById(messageRequest.getDeviceId());
+        device.setExternalId(messageRequest.getExternalId());
+        device.setEnable(true);
+        return deviceRepository.save(device);
     }
 }

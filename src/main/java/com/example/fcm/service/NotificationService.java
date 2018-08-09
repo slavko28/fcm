@@ -1,5 +1,6 @@
 package com.example.fcm.service;
 
+import com.example.fcm.model.Device;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;
 
@@ -13,4 +14,5 @@ public interface NotificationService {
 
     String sendMessage(Message message) throws FirebaseMessagingException;
 
+    String sendExternalIdToDevice(Device device) throws FirebaseMessagingException;
 }

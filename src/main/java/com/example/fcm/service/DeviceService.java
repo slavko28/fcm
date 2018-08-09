@@ -2,10 +2,13 @@ package com.example.fcm.service;
 
 import com.example.fcm.model.Device;
 import com.example.fcm.service.dto.DeviceDTO;
+import com.example.fcm.service.dto.MessageRequest;
 
 public interface DeviceService {
 
-    DeviceDTO save(DeviceDTO deviceDTO);
+    Device getById(Long id);
+
+    Device save(DeviceDTO deviceDTO);
 
     DeviceDTO update(DeviceDTO deviceDTO);
 
@@ -13,4 +16,5 @@ public interface DeviceService {
 
     Device findByExternalID(Long externalId);
 
+    Device setExternalId(MessageRequest messageRequest);
 }
