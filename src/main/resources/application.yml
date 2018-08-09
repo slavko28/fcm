@@ -1,3 +1,10 @@
 firebase:
   file-path: "example-5b50a-firebase-adminsdk-z4h8f-8188936642.json"
   database-url: "https://example-5b50a.firebaseio.com"
+
+spring:
+  kafka:
+    topic:
+      new_device: new-device
+      external_id: new-deviceId
+    bootstrap-servers: localhost:9092
