@@ -38,7 +38,7 @@ public class ConsumerServiceImpl implements ConsumerService {
         try {
             notificationService.sendExternalIdToDevice(device);
         } catch (FirebaseMessagingException e) {
-            log.info("Can not send assigned device id to device. Token: {}", device.getToken());
+            log.info("Can not send assigned device external id to device. Token: {}", device.getToken());
             e.printStackTrace();
         }
     }
