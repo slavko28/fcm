@@ -2,7 +2,7 @@ package com.example.fcm.service.dto;
 
 import com.example.fcm.model.enums.NotificationType;
 import lombok.Data;
-import lombok.experimental.Builder;
+import lombok.Builder;
 
 @Data
 @Builder

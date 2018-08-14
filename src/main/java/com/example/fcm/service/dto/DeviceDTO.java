@@ -1,13 +1,11 @@
 package com.example.fcm.service.dto;
 
 import com.example.fcm.model.enums.DevicePlatform;
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.experimental.Builder;
 
-@Builder
 @Data
+@Builder
 public class DeviceDTO {
 
     private Long externalId;

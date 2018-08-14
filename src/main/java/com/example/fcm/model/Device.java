@@ -1,13 +1,14 @@
 package com.example.fcm.model;
 
 import com.example.fcm.model.enums.DevicePlatform;
-import lombok.Data;
-import lombok.experimental.Builder;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Device {
 

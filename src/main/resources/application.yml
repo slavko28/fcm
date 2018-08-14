@@ -1,5 +1,5 @@
 firebase:
-  file-path: "example-5b50a-firebase-adminsdk-z4h8f-8188936642.json"
+  file-path: "example-5b50a-firebase-adminsdk-z4h8f-5f4eb8283a.json"
   database-url: "https://example-5b50a.firebaseio.com"
 
 spring:
