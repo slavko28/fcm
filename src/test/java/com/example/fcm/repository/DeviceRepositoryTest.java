@@ -19,6 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class DeviceRepositoryTest {
 
     public static final long EXTERNAL_ID = 11L;
+    public static final String DEVICE_TOKEN = "device token";
 
     @Autowired
     private EntityManager entityManager;
@@ -27,20 +28,27 @@ public class DeviceRepositoryTest {
     private DeviceRepository repository;
 
     @Before
-    public void storeDevice() {
-        Device device = getDevice();
-        entityManager.persist(device);
+    public void setUp() {
+        entityManager.persist(getDevice());
         entityManager.flush();
+    }
+
+    private Device getDevice() {
+        return Device.builder()
+                .enable(true)
+                .externalId(EXTERNAL_ID)
+                .platform(DevicePlatform.android)
+                .token(DEVICE_TOKEN)
+                .build();
     }
 
     @Test
     public void whenFindByExternalId_thenReturnDevice() {
-//        given
-        Device device = getDevice();
 //        when
-        Device found = repository.findByExternalId(11L).orElseGet(Device::new);
+        Optional<Device> found = repository.findByExternalId(EXTERNAL_ID);
 //        then
-        assertThat(found.getToken()).isEqualTo(device.getToken());
+        assertThat(found.isPresent()).isTrue();
+        assertThat(found.get().getToken()).isEqualTo(DEVICE_TOKEN);
     }
 
     @Test
@@ -52,12 +60,5 @@ public class DeviceRepositoryTest {
         assertThat(byExternalId.isPresent()).isFalse();
     }
 
-    private Device getDevice() {
-        return Device.builder()
-                .enable(true)
-                .externalId(EXTERNAL_ID)
-                .platform(DevicePlatform.android)
-                .token("device token")
-                .build();
-    }
+
 }
