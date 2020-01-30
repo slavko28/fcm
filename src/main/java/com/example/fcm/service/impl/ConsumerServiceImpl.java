@@ -32,13 +32,17 @@ public class ConsumerServiceImpl implements ConsumerService {
     @KafkaListener(topics = "${spring.kafka.topic.external_id}")
     public void receiveExternalId(@Payload MessageRequest messageRequest,
                                   @Headers MessageHeaders headers) {
-        log.info("Received message: \n {}", messageRequest);
+        log.debug("Received message: \n {}", messageRequest);
         Device device = deviceService.setExternalId(messageRequest);
         log.info("Device updated. Assigned external Id: {}", device.getExternalId());
+        sendExternalIdToDevice(device);
+    }
+
+    private void sendExternalIdToDevice(Device device) {
         try {
             notificationService.sendExternalIdToDevice(device);
         } catch (FirebaseMessagingException e) {
-            log.info("Can not send assigned device external id to device. Token: {}", device.getToken());
+            log.error("Can not send assigned device external id to device. Token: {}", device.getToken());
             e.printStackTrace();
         }
     }

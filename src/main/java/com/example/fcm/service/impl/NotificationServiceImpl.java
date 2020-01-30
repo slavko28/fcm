@@ -38,13 +38,17 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public String sendExternalIdToDevice(Device device) throws FirebaseMessagingException {
         // TODO: create message relative to the device platform
-        Message message = Message.builder()
-                .setNotification(new Notification(REGISTERING_TITLE, device.getExternalId().toString()))
-                .setToken(device.getToken())
-                .setAndroidConfig(getAndroidConfig()).build();
+        Message message = getMessageForDevice(device);
         String messageId = getInstance().send(message);
         log.info("External device Id send successfully. message Id: '{}'", messageId);
         return messageId;
+    }
+
+    public Message getMessageForDevice(Device device) {
+        return Message.builder()
+                .setNotification(new Notification(REGISTERING_TITLE, device.getExternalId().toString()))
+                .setToken(device.getToken())
+                .setAndroidConfig(getAndroidConfig()).build();
     }
 
     private AndroidConfig getAndroidConfig() {
