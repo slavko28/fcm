@@ -12,22 +12,15 @@ import java.util.Optional;
 @Service
 public class TopicServiceImpl implements TopicService {
 
-    private final TopicRepository topicRepository;
-
     @Autowired
-    public TopicServiceImpl(TopicRepository topicRepository) {
-        this.topicRepository = topicRepository;
-    }
+    private TopicRepository topicRepository;
 
     @Override
     @Transactional
     public Topic create(String topicName) {
-        if (findByName(topicName).isPresent()){
-            throw new IllegalArgumentException(String.format("Topic with name: '%s' - is already exists", topicName));
-        }
         return topicRepository.save(Topic.builder()
-                .name(topicName)
-                .build());
+            .name(topicName)
+            .build());
     }
 
     @Override
